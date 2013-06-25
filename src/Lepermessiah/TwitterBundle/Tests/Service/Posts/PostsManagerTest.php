@@ -104,4 +104,22 @@ class PostsManagerTest extends \PHPUnit_Framework_TestCase {
 		Phake::verify($this->entity_manager)->flush();
 	}
 
+	public function testListAllPostsByUserIdLooksUpThePostsCorrectly(){
+		$user_id = 798132;
+
+		$this->posts_manager->listPosts($user_id);
+
+		Phake::verify($this->repository)->findBy(array('user'=>$user_id));
+	}
+
+	public function testListAllPostsByUserIdReturnsTheArrayOfPosts(){
+		$user_id = 798132;
+		$post = new Posts();
+
+		Phake::when($this->repository)->findBy(array('user'=>$user_id))->thenReturn(array($post, $post));
+		$actual = $this->posts_manager->listPosts($user_id);
+
+		$this->assertEquals(array($post, $post), $actual);
+	}
+
 }

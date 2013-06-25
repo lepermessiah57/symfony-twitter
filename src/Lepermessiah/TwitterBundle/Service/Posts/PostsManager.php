@@ -30,6 +30,13 @@ class PostsManager extends ContainerAware {
 		$entity_manager->flush();
 	}
 
+	public function listPosts($user_id){
+		$entity_manager=$this->getEntityManager();
+		$repository=$this->getRepository('LepermessiahTwitterBundle:Posts', $user_id);
+	
+		return	$repository->findBy(array('user'=>$user_id));
+	}
+
 	protected function getEntityManager(){
 		return $this->container->get('doctrine')->getEntityManager();
 	}

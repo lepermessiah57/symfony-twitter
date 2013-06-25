@@ -97,11 +97,14 @@ class UsersController extends Controller
             throw $this->createNotFoundException('Unable to find Users entity.');
         }
 
+        $posts = $this->get('posts_manager')->listPosts($id);
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'posts'       => $posts
         );
     }
 

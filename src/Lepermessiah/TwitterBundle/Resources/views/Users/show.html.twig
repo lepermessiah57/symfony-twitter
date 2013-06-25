@@ -43,4 +43,19 @@
         </form>
     </li>
 </ul>
+<h3>Posts</h3>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Post</th>
+        <th>Date</th>
+    </tr>
+    {% for post in posts %}
+        <tr>
+            <td>{{post.id}}</td>
+            <td>{{post.post}}</td>
+            <td>{{post.createDate | date('m/d/Y h:i:s')}}</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock %}
