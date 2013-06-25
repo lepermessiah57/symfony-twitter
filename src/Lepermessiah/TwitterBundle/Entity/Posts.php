@@ -30,6 +30,11 @@ class Posts
      */
     private $post;
 
+    /**
+     *@ORM\ManyToOne(targetEntity="Users")
+     */
+    private $user;
+
     public function getId()
     {
         return $this->id;
