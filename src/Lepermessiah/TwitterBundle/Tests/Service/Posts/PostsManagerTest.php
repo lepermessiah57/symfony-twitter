@@ -85,4 +85,23 @@ class PostsManagerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($post, $actual);
 	}
 
+	public function testDeletePostRemovesThePostFromTheEntityManager(){
+		$post_id = 4654;
+		$post = new Posts();
+
+		Phake::when($this->entity_manager)->getReference('LepermessiahTwitterBundle:Posts', $post_id)->thenReturn($post);
+
+		$this->posts_manager->deletePost($post_id);
+
+		Phake::verify($this->entity_manager)->remove($post);	
+	}
+
+	public function testDeletePostWillFlushTheEntityManager(){
+		$post_id = 4654;
+
+		$this->posts_manager->deletePost($post_id);
+
+		Phake::verify($this->entity_manager)->flush();
+	}
+
 }

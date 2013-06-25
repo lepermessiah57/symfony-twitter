@@ -23,6 +23,13 @@ class PostsManager extends ContainerAware {
 		return $repository->find($post_id);
 	}
 
+	public function deletePost($post_id){
+		$entity_manager=$this->getEntityManager();
+		$post = $entity_manager->getReference('LepermessiahTwitterBundle:Posts',$post_id);
+		$entity_manager->remove($post);
+		$entity_manager->flush();
+	}
+
 	protected function getEntityManager(){
 		return $this->container->get('doctrine')->getEntityManager();
 	}

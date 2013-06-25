@@ -108,19 +108,17 @@ class PostsController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $post = $this->get('posts_manager')->findPost($id);
 
-        $entity = $em->getRepository('LepermessiahTwitterBundle:Posts')->find($id);
-
-        if (!$entity) {
+        if (!$post) {
             throw $this->createNotFoundException('Unable to find Posts entity.');
         }
 
-        $editForm = $this->createForm(new PostsType(), $entity);
+        $editForm = $this->createForm(new PostsType(), $post);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $post,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -135,21 +133,18 @@ class PostsController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $post = $this->get('posts_manager')->findPost($id);
 
-        $entity = $em->getRepository('LepermessiahTwitterBundle:Posts')->find($id);
-
-        if (!$entity) {
+        if (!$post) {
             throw $this->createNotFoundException('Unable to find Posts entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new PostsType(), $entity);
+        $editForm = $this->createForm(new PostsType(), $post);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+            $this->get('posts_manager')->savePost($post);
 
             return $this->redirect($this->generateUrl('posts_edit', array('id' => $id)));
         }
@@ -172,15 +167,7 @@ class PostsController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LepermessiahTwitterBundle:Posts')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Posts entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+            $this->get('posts_manager')->deletePost($id);            
         }
 
         return $this->redirect($this->generateUrl('posts'));
