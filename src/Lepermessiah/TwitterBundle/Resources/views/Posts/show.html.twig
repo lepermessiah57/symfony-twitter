@@ -17,6 +17,13 @@
                 <th>Post</th>
                 <td>{{ entity.post }}</td>
             </tr>
+            {% if entity.user %}
+            <tr>
+                <th>User</th>
+                <td>{{entity.user.name}}</td>
+            </tr>
+            {% endif %}
+
         </tbody>
     </table>
 

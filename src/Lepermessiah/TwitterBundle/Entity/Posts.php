@@ -31,7 +31,7 @@ class Posts
     private $post;
 
     /**
-     *@ORM\ManyToOne(targetEntity="Users")
+     *@ORM\ManyToOne(targetEntity="Users", inversedBy="posts")
      */
     private $user;
 
@@ -62,6 +62,18 @@ class Posts
     public function getPost()
     {
         return $this->post;
+    }
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

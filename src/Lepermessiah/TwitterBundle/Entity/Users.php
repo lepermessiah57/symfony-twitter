@@ -125,4 +125,12 @@ class Users
     {
         return $this->password;
     }
+
+    public function setPosts($posts){
+        $this->posts = $posts;
+    }
+
+    public function getPosts(){
+        return $this->posts;
+    }
 }

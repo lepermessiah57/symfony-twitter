@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersControllerTest extends WebTestCase
 {
+    public function testTrue(){}
     /*
     public function testCompleteScenario()
     {
