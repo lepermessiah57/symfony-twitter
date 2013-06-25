@@ -1,0 +1,5 @@
+lepermessiah_twitter:
+    resource: "@LepermessiahTwitterBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

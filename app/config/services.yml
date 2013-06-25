@@ -1,0 +1,5 @@
+services:
+    posts_manager:
+        class:     Lepermessiah\TwitterBundle\Service\Posts\PostsManager
+        calls:
+            - [setContainer, [@service_container]]
