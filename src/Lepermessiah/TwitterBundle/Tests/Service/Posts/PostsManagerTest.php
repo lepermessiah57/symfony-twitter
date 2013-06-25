@@ -3,6 +3,7 @@
 namespace Lepermessiah\TwitterBundle\Tests\Service\Posts;
 
 use Lepermessiah\TwitterBundle\Service\Posts\PostsManager;
+use Lepermessiah\TwitterBundle\Entity\Posts;
 use Symfony\Component\DependencyInjection\Container;
 use Phake;
 
@@ -45,6 +46,24 @@ class PostsManagerTest extends \PHPUnit_Framework_TestCase {
 		$actual = $this->posts_manager->listAllPosts();
 
 		$this->assertEquals($expected, $actual);
+	}
+
+	public function testSavePostPersistsTheEntity(){
+		$post = new Posts();
+		$post->setPost("foo");
+
+		$this->posts_manager->savePost($post);
+
+		Phake::verify($this->entity_manager)->persist($post);
+	}
+
+	public function testSavePostWillFlushTheEntityManager(){
+		$post = new Posts();
+		$post->setPost("foo");
+
+		$this->posts_manager->savePost($post);
+
+		Phake::verify($this->entity_manager)->flush();
 	}
 
 }

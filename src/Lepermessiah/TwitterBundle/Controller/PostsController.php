@@ -42,20 +42,18 @@ class PostsController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Posts();
-        $form = $this->createForm(new PostsType(), $entity);
+        $post  = new Posts();
+        $form = $this->createForm(new PostsType(), $post);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->get('posts_manager')->savePost($post);
 
-            return $this->redirect($this->generateUrl('posts_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('posts_show', array('id' => $post->getId())));
         }
 
         return array(
-            'entity' => $entity,
+            'entity' => $post,
             'form'   => $form->createView(),
         );
     }
