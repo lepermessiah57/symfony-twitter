@@ -66,4 +66,23 @@ class PostsManagerTest extends \PHPUnit_Framework_TestCase {
 		Phake::verify($this->entity_manager)->flush();
 	}
 
+	public function testFindPostWillLookupThePostById(){
+		$post_id = 4654;
+
+		$this->posts_manager->findPost($post_id);
+
+		Phake::verify($this->repository)->find($post_id);
+	}
+
+	public function testFindPostWillReturnThePostItFinds(){
+		$post_id = 4654;
+		$post = new Posts();
+		$post->setPost('I am a banana');
+		Phake::when($this->repository)->find($post_id)->thenReturn($post);
+
+		$actual = $this->posts_manager->findPost($post_id);
+
+		$this->assertEquals($post, $actual);
+	}
+
 }

@@ -7,8 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class PostsManager extends ContainerAware {
 	
 	public function listAllPosts(){
-		$entity_manager = $this->getEntityManager();
-		$repository = $entity_manager->getRepository('LepermessiahTwitterBundle:Posts');
+		$repository = $this->getRepository('LepermessiahTwitterBundle:Posts');
 
 		return $repository->findAll();	
 	}
@@ -19,7 +18,17 @@ class PostsManager extends ContainerAware {
 		$entity_manager->flush();
 	}
 
+	public function findPost($post_id){
+		$repository = $this->getRepository('LepermessiahTwitterBundle:Posts');
+		return $repository->find($post_id);
+	}
+
 	protected function getEntityManager(){
 		return $this->container->get('doctrine')->getEntityManager();
+	}
+
+	protected function getRepository($entity){
+		$entity_manager = $this->getEntityManager();
+		return $entity_manager->getRepository($entity);
 	}
 }

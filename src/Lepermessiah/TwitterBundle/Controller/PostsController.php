@@ -85,18 +85,16 @@ class PostsController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $post = $this->get('posts_manager')->findPost($id);
 
-        $entity = $em->getRepository('LepermessiahTwitterBundle:Posts')->find($id);
-
-        if (!$entity) {
+        if (!$post) {
             throw $this->createNotFoundException('Unable to find Posts entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $post,
             'delete_form' => $deleteForm->createView(),
         );
     }
